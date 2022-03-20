@@ -69,7 +69,7 @@ export default {
       </div>
       <button @click="pictureMode()">Picture to picture</button>
     </div>
-    <ul v-if="store?.state?.socketMessages" class="messages">
+    <ul v-if="store.state.socketMessages?.length >= 1" class="messages">
       <li v-for="message of store?.state?.socketMessages" :key="message">
         <p
           class="message-author"
@@ -85,7 +85,12 @@ export default {
         <p class="message-content">{{ message.text }}</p>
       </li>
     </ul>
-    <ul v-else class="messages"></ul>
+    <ul v-else class="messages">
+      <li>
+        <p class="message-author" :style="{ color: 'yellow' }">admin</p>
+        <p class="message-desc">En attente de quelqu'un..</p>
+      </li>
+    </ul>
     <form class="inputs">
       <input v-model="text" placeholder="Entrez le message" class="saisie" />
       <input

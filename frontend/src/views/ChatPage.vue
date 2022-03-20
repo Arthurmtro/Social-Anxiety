@@ -101,6 +101,8 @@ export default {
           class="remote-video"
           id="remote-video"
           :style="[
+            store.state.timer >= 0 ? { display: 'block' } : { display: 'none' },
+
             store.state.remoteUserTalking
               ? { border: '5px solid green' }
               : { border: '5px solid #181818' },
@@ -114,7 +116,10 @@ export default {
           muted
           class="local-video"
           id="local-video"
-          :style="{ width: tailleVideoMoi + '%' }"
+          :style="[
+            { width: tailleVideoMoi + '%' },
+            store.state.timer >= 0 ? null : { width: '100%' },
+          ]"
           @click="changerTailleVideo(30, 70)"
         />
       </div>

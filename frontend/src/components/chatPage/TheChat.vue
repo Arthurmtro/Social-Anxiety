@@ -1,7 +1,6 @@
 <script>
 import { useStore } from "@/store";
 import { ref } from "vue";
-import { mapState } from "vuex";
 import router from "@/router";
 
 let timeout;
@@ -48,11 +47,11 @@ export default {
     count(newCount, oldCount) {
       if (newCount === 60) {
         timeout = setInterval(() => {
-          if (newCount >= 0) {
+          if (newCount > 0) {
             this.$store.dispatch("updateTimer", -1);
           } else {
-            clearInterval(timeout);
             router.push("/");
+            clearInterval(timeout);
           }
         }, 1000);
       }

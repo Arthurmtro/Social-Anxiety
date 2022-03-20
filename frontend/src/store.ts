@@ -1,6 +1,6 @@
 import { createStore, useStore as baseUseStore, Store } from "vuex";
 import { InjectionKey } from "vue";
-import router from "@/router";
+import router from "./router";
 
 // Types
 import { UserType } from "./types/user.type";

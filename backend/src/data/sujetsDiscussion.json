@@ -1,0 +1,36 @@
+{
+  "banal": [
+    {
+      "nom": "Voyages"
+    },
+    {
+      "nom": "Cinéma"
+    },
+    {
+      "nom": "Sport"
+    },
+    {
+      "nom": "Nourriture"
+    },
+    {
+      "nom": "Musique"
+    }
+  ],
+  "WTF": [
+    {
+      "nom": "Avez-vous peur de la calvitie ?"
+    },
+    {
+      "nom": "L’ amour ne conquiert jamais tout ou cette notion est-elle juste le battage médiatique des compagnies de cartes de vœux sinistres ?"
+    },
+    {
+      "nom": "Quel pourcentage de vos décisions, selon vous, sont prises par votre inconscient ou votre subconscient et quel pourcentage par votre conscient ?"
+    },
+    {
+      "nom": "Pourrions-nous prédire avec précision l’avenir ? Ou est-ce l’ « action effrayante » du monde quantique, comme l’a dit Einstein, signifie que les choses sont intrinsèquement imprévisibles ?"
+    },
+    {
+      "nom": "N’ est-il jamais juste de sacrifier la vie d’une personne innocente pour sauver la vie de cinq innocents ? Et si prendre une vie sauverait 100 vies ? La décision est-elle plus facile si la personne sacrifiée était un meurtrier reconnu coupable ? Seriez-vous plus prêt à sacrifier un adulte que vous ne le feriez pour un bébé ? Voudrais-tu sacrifier ta propre vie ?"
+    }
+  ]
+}

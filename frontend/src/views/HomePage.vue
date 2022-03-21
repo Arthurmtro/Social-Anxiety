@@ -1,6 +1,7 @@
-<script lang="ts">
+<script>
+import FormulaireAccueil from "@components/FormulaireAccueil.vue";
 import { ref } from "vue";
-import FormulaireAccueil from "../components/FormulaireAccueil.vue";
+
 export default {
   setup() {
     const text = ref("");
@@ -9,12 +10,13 @@ export default {
       text,
     };
   },
-
-  mounted() {
-    // console.log(this.text); // 0
-  },
   components: {
     FormulaireAccueil,
+  },
+  methods: {
+    joinChatQueue(username) {
+      this.$store.dispatch("joinChatQueue", username.trim());
+    },
   },
 };
 </script>
@@ -28,7 +30,7 @@ export default {
       </caption>
     </div>
 
-    <formulaire-accueil></formulaire-accueil>
+    <formulaire-accueil :method="joinChatQueue" />
   </div>
 </template>
 

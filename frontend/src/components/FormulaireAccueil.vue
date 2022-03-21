@@ -3,6 +3,9 @@ import { ref } from "vue";
 import { useStore } from "../store";
 
 export default {
+  props: {
+    method: { type: Function },
+  },
   setup() {
     const username = ref("");
     const store = useStore();
@@ -24,11 +27,11 @@ export default {
         v-model="username"
         placeholder="Votre username"
         id="username"
-        v-on:keyup.enter="store.dispatch('sendUsername', username.trim())"
+        v-on:keyup.enter="this.method(username)"
       />
       <button
         :disabled="!username"
-        @click="store.dispatch('sendUsername', username.trim())"
+        @click="this.method(username)"
         class="bouton"
       >
         Go Chatter

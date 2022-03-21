@@ -16,11 +16,11 @@ export interface IMessage {
 export interface IState {
   peerConnection: RTCPeerConnection;
   connectedUsers: UserType[];
+  currentUser?: UserType;
   isAlreadyCalling: boolean;
   socketMessages: IMessage[];
   isConnected: boolean;
   socket?: Socket;
-  remoteUserTalking: boolean;
   timer: number;
 }
 
@@ -30,6 +30,7 @@ const store = createStore<IState>({
   state: {
     peerConnection: new RTCPeerConnection(),
     isAlreadyCalling: false,
+    currentUser: undefined,
     isConnected: false,
     socket: undefined,
     socketMessages: [
@@ -45,20 +46,15 @@ const store = createStore<IState>({
       },
     ],
     connectedUsers: [],
-    remoteUserTalking: false,
     timer: 0,
   },
   actions: {
     updateTimer: (_context: any, value: number) => {
       store.state.timer += value;
     },
-    remoteUserStateChange: (_context: any, newState: boolean) => {
-      store.state.remoteUserTalking = newState;
-    },
-    sendUsername: async (_context: any, username: string) => {
+    joinChatQueue: async (_context: any, username: string) => {
       if (!store.state.socket) return;
-
-      store.state.socket.emit("setUsername", username);
+      store.state.socket.emit("joinChatQueue", username);
     },
     callUser: async (_context: any, socketId: string) => {
       if (!store.state.socket) return;
@@ -77,6 +73,10 @@ const store = createStore<IState>({
   mutations: {
     setSocket: (state, socket) => {
       state.socket = socket;
+
+      state.currentUser = JSON.parse(JSON.stringify(state.connectedUsers)).find(
+        (user: UserType) => user.id === socket.id
+      );
     },
 
     SOCKET_connect(state) {
@@ -162,6 +162,8 @@ const store = createStore<IState>({
     },
     SOCKET_accessToChatroom(state, users: { users: UserType[] }) {
       state.connectedUsers = users.users;
+
+      console.log("state.connectedUsers", state.connectedUsers);
 
       router.push("/chat");
     },

@@ -1,19 +1,19 @@
-<template>
-  <div id="app">
-    <router-view />
-  </div>
-</template>
-
 <script>
 import { useStore } from "@/store";
 
 export default {
-  beforeCreate() {
+  beforeMounted() {
     const store = useStore();
     store.commit("setSocket", this.$socket);
   },
 };
 </script>
+
+<template>
+  <div id="app">
+    <router-view />
+  </div>
+</template>
 
 <style>
 @font-face {

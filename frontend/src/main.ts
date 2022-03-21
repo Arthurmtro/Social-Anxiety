@@ -13,7 +13,7 @@ import App from "./App.vue";
 
 export const socket = new VueSocketIO<any>({
   debug: false,
-  connection: SocketInstance("http://192.168.119.102:443"),
+  connection: SocketInstance("http://localhost:443"),
   vuex: {
     store,
     actionPrefix: "SOCKET_",

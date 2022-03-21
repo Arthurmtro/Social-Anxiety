@@ -9,7 +9,7 @@ export default defineConfig({
       "/api": {
         ws: true,
         changeOrigin: true,
-        target: "http://192.168.119.102:443",
+        target: "http://localhost:443",
       },
     },
   },

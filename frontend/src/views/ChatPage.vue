@@ -18,10 +18,9 @@ export default {
     const tailleVideoAutre = ref(50);
     const tailleVideoMoi = ref(50);
 
-    // @ts-ignore
-    navigator.getUserMedia(
-      { video: true, audio: true },
-      (stream) => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((stream) => {
         const localVideo = document.getElementById("local-video");
         if (localVideo) {
           // @ts-ignore
@@ -33,11 +32,10 @@ export default {
           .forEach((track) =>
             store.state.peerConnection.addTrack(track, stream)
           );
-      },
-      (error) => {
+      })
+      .catch((error) => {
         console.warn(error.message);
-      }
-    );
+      });
 
     setInterval(() => {
       const receiver = store.state.peerConnection.getReceivers().find((r) => {
@@ -101,7 +99,7 @@ export default {
           class="remote-video"
           id="remote-video"
           :style="[
-            store.state.timer >= 0 ? { display: 'block' } : { display: 'none' },
+            store.state.timer > 0 ? { display: 'block' } : { display: 'none' },
 
             store.state.remoteUserTalking
               ? { border: '5px solid green' }
@@ -118,7 +116,7 @@ export default {
           id="local-video"
           :style="[
             { width: tailleVideoMoi + '%' },
-            store.state.timer >= 0 ? null : { width: '100%' },
+            store.state.timer > 0 ? null : { width: '100%' },
           ]"
           @click="changerTailleVideo(30, 70)"
         />

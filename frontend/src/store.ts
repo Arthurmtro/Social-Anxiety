@@ -7,11 +7,17 @@ import { UserType } from "./types/user.type";
 
 import { Socket } from "socket.io-client";
 
+export interface IMessage {
+  authorId: string;
+  name: string;
+  text: string;
+}
+
 export interface IState {
   peerConnection: RTCPeerConnection;
   connectedUsers: UserType[];
   isAlreadyCalling: boolean;
-  socketMessages: string[];
+  socketMessages: IMessage[];
   isConnected: boolean;
   socket?: Socket;
   remoteUserTalking: boolean;
@@ -26,10 +32,21 @@ const store = createStore<IState>({
     isAlreadyCalling: false,
     isConnected: false,
     socket: undefined,
-    socketMessages: [],
+    socketMessages: [
+      {
+        authorId: "AnxioBot",
+        name: "AnxioBot",
+        text: "En attente de quelqu'un...",
+      },
+      {
+        authorId: "AnxioBot",
+        name: "AnxioBot",
+        text: "Merci d'etre respectueux les uns envers les autres, SHEEESHH",
+      },
+    ],
     connectedUsers: [],
     remoteUserTalking: false,
-    timer: -1,
+    timer: 0,
   },
   actions: {
     updateTimer: (_context: any, value: number) => {
@@ -69,7 +86,7 @@ const store = createStore<IState>({
     SOCKET_disconnect(state) {
       state.isConnected = false;
     },
-    SOCKET_messageChannel(state, message: string) {
+    SOCKET_messageChannel(state, message: IMessage) {
       state.socketMessages.push(message);
     },
     SOCKET_updateUserList(state, users: { users: UserType[] }) {
@@ -103,11 +120,21 @@ const store = createStore<IState>({
       });
       store.state.timer = 60;
       state.isAlreadyCalling = true;
+
+      const userJoinded = store.state.connectedUsers.find(
+        (user) => user.id === data.socket
+      );
+
+      state.socketMessages = [
+        {
+          authorId: "AnxioBot",
+          name: "AnxioBot",
+          text: `${userJoinded?.username} entered the chat...`,
+        },
+      ];
     },
     async SOCKET_answerMade(state, data: any) {
       if (!state.socket) return;
-
-      console.log("SOCKET_answerMade socket", data.socket);
 
       await store.state.peerConnection.setRemoteDescription(
         new RTCSessionDescription(data.answer)
@@ -117,6 +144,18 @@ const store = createStore<IState>({
         store.dispatch("callUser", data.socket);
         state.isAlreadyCalling = true;
         store.state.timer = 60;
+
+        const userJoinded = store.state.connectedUsers.find(
+          (user) => user.id === data.socket
+        );
+
+        state.socketMessages = [
+          {
+            authorId: "AnxioBot",
+            name: "AnxioBot",
+            text: `${userJoinded?.username} entered the chat...`,
+          },
+        ];
       } else {
         console.log("Already calling");
       }

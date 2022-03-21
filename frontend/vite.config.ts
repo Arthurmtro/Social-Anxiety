@@ -9,7 +9,7 @@ export default defineConfig({
       "/api": {
         ws: true,
         changeOrigin: true,
-        target: "http://localhost:3001",
+        target: "http://192.168.119.102:443",
       },
     },
   },

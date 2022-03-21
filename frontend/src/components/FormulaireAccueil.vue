@@ -1,26 +1,3 @@
-<template>
-  <div class="formulaire">
-    <h1>Préparez-vous à rejoindre l'aventure</h1>
-    <div class="username-input">
-      <!-- <label for="username">username</label> -->
-      <input
-        type="text"
-        v-model="username"
-        placeholder="Votre username"
-        id="username"
-        v-on:keyup.enter="store.dispatch('sendUsername', username.trim())"
-      />
-      <button
-        :disabled="!username"
-        @click="store.dispatch('sendUsername', username.trim())"
-        class="bouton"
-      >
-        Go Chatter
-      </button>
-    </div>
-  </div>
-</template>
-
 <script>
 import { ref } from "vue";
 import { useStore } from "../store";
@@ -37,6 +14,31 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="formulaire">
+    <h1>Préparez-vous à rejoindre l'aventure</h1>
+    <div v-if="store.state.isConnected" class="username-input">
+      <input
+        type="text"
+        v-model="username"
+        placeholder="Votre username"
+        id="username"
+        v-on:keyup.enter="store.dispatch('sendUsername', username.trim())"
+      />
+      <button
+        :disabled="!username"
+        @click="store.dispatch('sendUsername', username.trim())"
+        class="bouton"
+      >
+        Go Chatter
+      </button>
+    </div>
+    <div class="disconnected" v-else>
+      <p>La connexion a un problème...</p>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .formulaire {
@@ -102,5 +104,10 @@ span {
 .bouton:hover {
   background-color: #004b1f;
   cursor: pointer;
+}
+
+.disconnected {
+  font-size: 1.5rem;
+  color: rgb(202, 4, 4);
 }
 </style>

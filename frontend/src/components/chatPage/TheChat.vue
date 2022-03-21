@@ -47,7 +47,7 @@ export default {
     count(newCount, oldCount) {
       if (newCount === 60) {
         timeout = setInterval(() => {
-          if (newCount > 0) {
+          if (newCount >= 1) {
             this.$store.dispatch("updateTimer", -1);
           } else {
             router.push("/");
@@ -65,7 +65,7 @@ export default {
     <div v-if="store.state.isAlreadyCalling" class="actions-buttons">
       <div>
         {{ store.state.timer }}
-        <button @click="ajoutTempsTimer()">+30</button>
+        <!-- <button @click="ajoutTempsTimer()">+30</button> -->
       </div>
       <button @click="pictureMode()">Picture to picture</button>
     </div>
@@ -74,7 +74,9 @@ export default {
         <p
           class="message-author"
           :style="[
-            message.authorId == store?.state?.socket.id
+            message.authorId === 'AnxioBot'
+              ? { color: 'yellow' }
+              : message.authorId == store?.state?.socket.id
               ? { color: '#407CB8' }
               : { color: '#B84040' },
           ]"
@@ -83,12 +85,6 @@ export default {
         </p>
 
         <p class="message-content">{{ message.text }}</p>
-      </li>
-    </ul>
-    <ul v-else class="messages">
-      <li>
-        <p class="message-author" :style="{ color: 'yellow' }">admin</p>
-        <p class="message-desc">En attente de quelqu'un..</p>
       </li>
     </ul>
     <form class="inputs">
@@ -142,7 +138,7 @@ export default {
 
 .messages li .message-author {
   font-weight: bold;
-  width: 35%;
+  width: 20%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

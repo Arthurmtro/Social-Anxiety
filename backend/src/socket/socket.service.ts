@@ -49,11 +49,11 @@ export class SocketService {
     });
   }
 
-  setUsername(
-    logger,
+  joinChatQueue(
     activeSockets: userType[],
-    client: Socket,
+    logger,
     username: string,
+    client: Socket,
   ) {
     logger.log(`set username for ${client.id} : ${username}`);
 
@@ -64,6 +64,7 @@ export class SocketService {
     if (!existingSocket) return;
 
     existingSocket.username = username;
+    existingSocket.inQueue = true;
 
     activeSockets = activeSockets.filter(
       (existingSocket) => existingSocket.id !== client.id,
@@ -71,17 +72,13 @@ export class SocketService {
 
     activeSockets.push(existingSocket);
 
-    client.emit('accessToChatroom', {
-      users: activeSockets,
-    });
+    logger.log(`${client.id} Join the waiting queue`);
 
-    client.emit('updateUserList', {
-      users: activeSockets,
-    });
+    client.emit('accessToChatroom', activeSockets);
 
-    client.broadcast.emit('updateUserList', {
-      users: activeSockets,
-    });
+    client.emit('updateUserList', activeSockets);
+
+    client.broadcast.emit('updateUserList', activeSockets);
 
     return activeSockets;
   }
@@ -98,15 +95,15 @@ export class SocketService {
     );
 
     if (!existingSocket) {
-      activeSockets.push({ id: client.id });
-
-      client.emit('updateUserList', {
-        users: activeSockets,
+      activeSockets.push({
+        id: client.id,
+        username: undefined,
+        inQueue: false,
       });
 
-      client.broadcast.emit('updateUserList', {
-        users: activeSockets,
-      });
+      client.emit('updateUserList', activeSockets);
+
+      client.broadcast.emit('updateUserList', activeSockets);
     }
   }
 

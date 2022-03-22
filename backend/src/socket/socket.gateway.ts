@@ -53,13 +53,13 @@ export class SocketGateway
     this.socketService.makeAnswer(this.server, client, payload);
   }
 
-  @SubscribeMessage('setUsername')
-  setUsername(client: Socket, username: string): void {
-    this.activeSockets = this.socketService.setUsername(
-      this.logger,
+  @SubscribeMessage('joinChatQueue')
+  joinChatQueue(client: Socket, username: string): void {
+    this.activeSockets = this.socketService.joinChatQueue(
       this.activeSockets,
-      client,
+      this.logger,
       username,
+      client,
     );
   }
 

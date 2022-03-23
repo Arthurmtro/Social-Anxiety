@@ -19,7 +19,7 @@ export default {
     clearInterval(timeout);
   },
   methods: {
-    pingServer() {
+    sendMessage() {
       this.$socket.emit("msgToServer", this.text);
       this.text = "";
     },
@@ -93,7 +93,7 @@ export default {
         type="submit"
         value="Envoyer"
         :disabled="!text"
-        @click="pingServer()"
+        @click="sendMessage()"
         class="send-message"
       />
     </form>

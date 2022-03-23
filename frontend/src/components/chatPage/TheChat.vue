@@ -50,7 +50,7 @@ export default {
           if (newCount >= 1) {
             this.$store.dispatch("updateTimer", -1);
           } else {
-            router.push("/");
+            // router.push("/");
             clearInterval(timeout);
           }
         }, 1000);

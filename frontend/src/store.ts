@@ -89,8 +89,8 @@ const store = createStore<IState>({
     SOCKET_messageChannel(state, message: IMessage) {
       state.socketMessages.push(message);
     },
-    SOCKET_updateUserList(state, users: { users: UserType[] }) {
-      state.connectedUsers = users.users;
+    SOCKET_updateUserList(state, users: UserType[]) {
+      state.connectedUsers = users;
     },
     SOCKET_removeUser(state, socketId: string) {
       if (!state.connectedUsers || state.connectedUsers.length === 0) return;
@@ -160,15 +160,15 @@ const store = createStore<IState>({
         console.log("Already calling");
       }
     },
-    SOCKET_accessToChatroom(state, users: { users: UserType[] }) {
-      state.connectedUsers = users.users;
+    SOCKET_accessToChatroom(state, users: UserType[]) {
+      if (!state.socket) return;
 
-      console.log("state.connectedUsers", state.connectedUsers);
+      state.connectedUsers = users;
+      state.currentUser = users.find(({ id }) => id === state.socket?.id);
 
       router.push("/chat");
     },
   },
-  // plugins: [createLogger()],
 });
 
 export function useStore() {

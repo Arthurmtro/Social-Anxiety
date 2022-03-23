@@ -2,7 +2,7 @@
 import { useStore } from "@/store";
 
 export default {
-  beforeMounted() {
+  beforeCreate() {
     const store = useStore();
     store.commit("setSocket", this.$socket);
   },

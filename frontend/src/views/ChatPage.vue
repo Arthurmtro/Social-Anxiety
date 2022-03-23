@@ -1,11 +1,10 @@
 <script>
-import AmIConnected from "@/components/AmIConnected.vue";
-import TheChat from "@/components/chatPage/TheChat.vue";
-import TheUser from "@/components/chatPage/TheUser.vue";
 import { useStore } from "@/store";
 import router from "@/router";
-import { ref } from "vue";
+
 import TheVideo from "@/components/chatPage/TheVideo.vue";
+import TheChat from "@/components/chatPage/TheChat.vue";
+import TheUser from "@/components/chatPage/TheUser.vue";
 
 const REFRESH_RATE = 500;
 
@@ -13,22 +12,25 @@ let refreshInterval;
 
 export default {
   components: {
-    AmIConnected,
     TheChat,
     TheUser,
     TheVideo,
   },
   setup() {
     const store = useStore();
-
     if (!store.state.currentUser || !store.state.currentUser.username) {
+      router.push("/");
       router.push("/");
     }
   },
   mounted() {
+    const store = useStore();
     refreshInterval = setInterval(() => {
-      if (store.state.currentUser.inQueue) return;
       console.log("Refreshing state");
+      if (store.state.currentUser.inQueue) {
+        return;
+      }
+      console.log("In a call");
     }, REFRESH_RATE);
   },
   unmounted() {

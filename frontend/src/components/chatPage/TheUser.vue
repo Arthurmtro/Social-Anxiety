@@ -1,20 +1,3 @@
-<template>
-  <div id="menuUsers">
-    <h3>Users</h3>
-    <ul>
-      <li
-        v-for="user of store.state.connectedUsers.filter(
-          (user) => user.id !== store.state.socket.id && user.username
-        )"
-        :key="user"
-        @click="store.dispatch('callUser', user.id)"
-      >
-        <p>{{ user.username }}</p>
-      </li>
-    </ul>
-  </div>
-</template>
-
 <script>
 import { useStore } from "@/store";
 
@@ -26,6 +9,23 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div id="menuUsers">
+    <h3>Users</h3>
+    <ul>
+      <li
+        v-for="user of store?.state?.connectedUsers.filter(
+          (user) => user.id !== store.state.socket.id && user.username
+        )"
+        :key="user"
+        @click="store.dispatch('callUser', user.id)"
+      >
+        <p>{{ user.username }}</p>
+      </li>
+    </ul>
+  </div>
+</template>
 
 <style scoped>
 #menuUsers {
